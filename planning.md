@@ -9,25 +9,36 @@ This domain is uniquely suited for text classification because it uses an overla
 
 ## 2. Label Taxonomy
 
-The classifier will categorize text into one of three mutually exclusive, exhaustive labels:
+The classifier will categorize text into one of three labels:
 
-*   **`technical_dd`**: The post makes a structured, data-driven investment thesis backed by verifiable metrics (e.g., DCF models, macro indicators, options Greeks, or algorithmic backtests). The argument relies on external financial realities, not internal group dynamics.
+*   **`technical_dd`**: The post makes a structured, data-driven argument backed by verifiable metrics (e.g., DCF models, macro indicators, options Greeks, or algorithmic backtests). The argument relies on external financial realities, not internal group dynamics.
 *   **`momentum_hype`**: The post focuses on price action, community sentiment, short squeezes, or emotional validation. This also includes **satirical or "fake math" posts** where technical structures are used to justify impossible premises (e.g., meme coin valuations). The underlying logic is circular: an asset is valuable primarily because the crowd is moving toward it.
 *   **`existential_doomer`**: Hyper-pessimistic macro-takes, panic vents, or "loss porn" narratives. While these posts may use financial jargon (e.g., "hyperinflation," "liquidity crisis"), their core purpose is cathartic venting, catastrophic signaling, or emotional expression rather than actionable, falsifiable analysis.
 
 ### Concrete Label Examples
 
 #### `technical_dd`
-*   **Example 1:** "Analyzing the spread between 2-year and 10-year Treasury yields alongside recent core PCE prints suggests the market is mispricing a structural shift. If inflation remains sticky at 3.1%, historical backtests of this spread point to a compression in mid-cap valuation multiples over the next two quarters."
-*   **Example 2:** "Company X's Q3 balance sheet reveals an unsustainable debt-to-equity ratio of 4.2. With $500M in floating-rate notes maturing in 12 months, their interest coverage ratio will drop below 1.5 if the Fed holds rates steady, making a dilutive equity offering highly probable."
+*   **Example 1:** "On june 12, the largest ipo in the history of financial markets goes live. $75 billion raise thats like more than triple what saudi aramco pulled in 2019 which was the previous record. Bitpanda is also listing spcx from day one with fractional shares. I spent the last few days actually going through the S1 filing. The spacex handles 82% of all US space launches and 45% of every commercial space contract on the planet while starlink hit 10m subs across 164 countries by end of q1 2026, roughly double what it was a year ago and connectivity revenue came in at $3.26 billion in just q1 alone..."
+
+*   **Example 2:** "friday's gold move is the bond market talking. gold opened 4652 and closed 4538 on the broker daily candle, low of 4511 intraday. 114 dollar single-day drop. silver collapsed from a weekly high near 88 down to a 75.89 close. this looks insane when CPI is at 3.8 percent (highest since may 2023) and PPI is at 6 percent with wholesale gasoline up 15.6 percent in a single month. gold is supposed to be the inflation hedge."
 
 #### `momentum_hype`
-*   **Example 1:** "TSLA to the moon! 🚀 The shorts are completely trapped at the $180 line and the volume is exploding. If we hold the line past Friday's expiration, the market makers will be forced to delta-hedge, triggering the mother of all gamma squeezes. Do not sell!"
-*   **Example 2 (The Math Troll):** "If we assume Dogecoin captures 100% of global M2 money supply by 2026, and we divide by the algorithmic hash rate of my basement rig, the fundamental floor price is $420.69. The math literally cannot be wrong, load the boat."
+*   **Example 1:** "Hype the f\*ck out and buy everything right now. This is the f\*cking moonshot. (satricial quote attributed to Warren Buffett)"
+
+*   **Example 2:** 
+"TLDR:
+#1 SPCX, like the rocket, goes up and will clear orbit before crashing in October when lockups expire.
+#2 Valuation of the stock doesn't matter - it's the float that matters. Almost no one who can sell got in below IPO price
+#3 The forced buyers are the boomers and their 401k funds and those tracking QQQ. Hedgies know this, and now we do too. The buy is up to 45% of the float.
+#4 Apes strong together - most retial brokers are giving penalties for selling before 15/30/60/90 days, so all we have to do is not be paper handed regards.
+#4 Options released next week = more gamma squeeze.
+#5 Macro is short term bullish if we continue to work towards and away from a peace deal
+#6 Also, everyone hates Elon on Reddit so an inverse is obvious. I hate Elon too, but I like money."
 
 #### `existential_doomer`
-*   **Example 1:** "The entire financial system is a house of cards waiting to collapse. The fiat printing press has completely destroyed the purchasing power of the middle class, and this upcoming margin compression is going to wipe out 90% of retail portfolios. Stack cash and prepare for the worst."
-*   **Example 2:** "I just lost my entire life savings ($42k) betting on weekly options. My wife is leaving me and I'm currently sitting in a Wendy's parking lot wondering where it all went wrong. The market is completely rigged against the little guy."
+*   **Example 1:** "im so tired. What made me think i could do this. 90% of people fail, at trading... yet, I carry on like i'm going to magically make this work. i have nothing. i'm so tired. i'm so exhausted."
+
+*   **Example 2:** "The volatility of the last few months due to the war, the constant “peace talks are looking promising!” then whiplashing to “just kidding everything is getting blown up”, constant need to restructure strategies to factor all of this in(obviously this is always a thing, but not to this extent). It’s all just exhausting, frustrating, and infuriating that it is being allowed to continue. I guess financial laws only apply to us normies."
 
 ---
 
@@ -43,9 +54,9 @@ The classifier will categorize text into one of three mutually exclusive, exhaus
 ## 4. Data Collection Plan
 
 *   **Target Sample Size:** 210 total annotated examples (70 posts per label to ensure perfect class balance).
-*   **Text Truncation Rule:** To comply with DistilBERT's 512-token limit, for posts exceeding ~350 words, only the first 3-4 paragraphs (the core thesis) will be captured. 
+*   **Text Truncation Rule:** To comply with DistilBERT's 512-token limit, for posts exceeding ~350 words, only the first 3-4 paragraphs (usually the main point) will be captured. 
 *   **Sampling Strategy:** Rather than scraping chronological top posts, data will be curated via targeted searches to capture edge cases:
-    *   *Sorting by "Controversial"* on `r/wallstreetbets` to uncover posts where the community is heavily divided on whether an argument is brilliant analysis or pure delusion.
+    *   *Sorting by "best" or "hot"* on `r/wallstreetbets` to uncover posts where the community is heavily engaged and possibly divided on whether an argument is brilliant analysis or pure delusion.
     *   *Keyword cross-pollination:* Searching identical terms (e.g., "yield curve", "short interest") across `r/investing` (seeking `technical_dd`) and `r/wallstreetbets` (seeking `momentum_hype` or `existential_doomer`).
 *   **Underrepresentation Mitigation:** If a specific category (e.g., `technical_dd`) is underrepresented after initial collection, targeted scraping will shift exclusively to `r/algotrading` and `r/SecurityAnalysis` to build up the required count.
 
@@ -71,9 +82,6 @@ For this classifier to be considered "good enough" for integration into a real-w
 
 ### Label Stress-Testing
 Prior to annotating the 200 examples, the label definitions and decision boundaries will be fed into a frontier LLM. The model will be prompted to generate 10 highly ambiguous financial posts designed to intentionally break the taxonomy boundaries. If these synthetic posts reveal unhandled overlaps, the decision rules will be revised before human annotation begins.
-
-### Annotation Assistance
-The dataset will be annotated entirely by hand to maintain strict gold-standard data integrity. However, an LLM will be used to generate a secondary "shadow" set of labels for the test set to act as a pseudo-inter-annotator reliability check.
 
 ### Failure Analysis
 Following evaluation, all misclassified examples will be compiled into a structured JSON payload. An LLM will be utilized to perform clustering on these errors, identifying systematic vulnerabilities (e.g., "Model consistently misclassifies posts under 50 words" or "Model fails to parse structural irony"). These insights will be verified manually against the raw text.
